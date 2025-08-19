@@ -1,0 +1,33 @@
+.table {
+  width: 100%;                  
+  margin-top: 0.75rem;
+  border-collapse: collapse;     
+}
+
+th, td {
+  border: 1px solid #000000;     
+  padding: 0.5rem 1rem;            
+  text-align: left;   
+  text-align: center;            
+}
+
+th {
+  font-weight: 600;                
+}
+
+.link{
+    text-align: justify;
+}
+
+.status{
+    width: 200px;
+}
+
+.blueLink {
+  color: #3b82f6;                 
+  text-decoration: none;        
+}
+
+.blueLink:hover {
+  color: #1d4ed8;           
+}

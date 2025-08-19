@@ -1,0 +1,40 @@
+.main {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 48rem;
+  padding: 2rem;
+
+  &__title {
+  font-size: 2.25rem; 
+  line-height: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 2.5rem;
+  text-align: center;  
+}
+
+&__buttonContainer {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+&__publicationButton {
+  background-color: #16a34a;             
+}
+
+&__publicationButton:hover {
+  background-color: #15803d;     
+}
+
+&__loadingText {
+  margin-top: 1rem;           
+}
+
+}
+
+.blueButton[disabled],
+.blueButton.loading {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
