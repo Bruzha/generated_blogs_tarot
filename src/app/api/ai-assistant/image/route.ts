@@ -3,15 +3,15 @@ import { generateImageWithFlux } from "../ImageController";
 
 import { getBase64ImageFromPublic } from "@/utils/imageToBase64";
 
-const NEGATIVE_PROMPT = "deformed face, blurry face, extra limbs, distorted hands, missing fingers, incorrect anatomy, unrealistic reflections, duplicate body parts, asymmetrical face, artifacts, glitch, watermark, text, logo, poorly drawn face, extra arms, fused fingers, low quality, incorrect screen location, deformed diagrams";
+const NEGATIVE_PROMPT = "deformed face, blurry face, extra limbs, distorted hands, missing fingers, incorrect anatomy, unrealistic reflections, duplicate body parts, asymmetrical face, artifacts, glitch, watermark, text, logo, poorly drawn face, extra arms, fused fingers, low quality";
+
 const STYLE_IMAGES = [
-  "image-styles/style1.png",
-  "image-styles/style2.png",
-  "image-styles/style3.png",
-  "image-styles/style4.png",
-  "image-styles/style5.png",
-  "image-styles/style6.png",
-  "image-styles/style10.png",
+  "image-styles/image1.png",
+  "image-styles/image2.png",
+  "image-styles/image3.png",
+  "image-styles/image4.png",
+  "image-styles/image5.png",
+  "image-styles/image6.png"
 ];
 
 export function getImage(imageDescription: string): {
@@ -26,12 +26,27 @@ export function getImage(imageDescription: string): {
   }
 
   const prompt = `
-  Generate a realistic natural photo in which ${imageDescription}.
+  Generate a natural, high-quality minimalistic illustration in which ${imageDescription}.
   Use the style, color palette, and mood of the reference image,
   but do not copy its content, subject, objects, or composition.
   The result must be a completely new scene with unique elements,
   only inspired by the artistic style of the reference image.
-  The output image must be exactly 1024x1024 pixels in resolution.
+  The output image must be exactly 1024x1024 pixels in resolution. 
+  Don't add text or outlines. Gradients and light, fine dotted fill structures are allowed (as in the reference).
+
+  You can use colors (hex): 
+    #0A0912 
+    #272639 
+    #35334B 
+    #494766 
+    #4C5A8E 
+    #A481BF 
+    #F2D4A2 
+    #B9586B 
+    #959FD8 
+    #D5A2F2 
+    #FFC274 
+    #F76D77
 
   Negative prompt: ${NEGATIVE_PROMPT}
 `.trim();

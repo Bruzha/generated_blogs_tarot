@@ -106,7 +106,7 @@ export default function IndexPage() {
         <LoadingIndicator stage={loadingStage} />
       ) : (
         <>
-          <h1 className="main__title">Articles for the CROCODE blog</h1>
+          <h1 className="main__title">Articles for the tarot blog</h1>
           <div className="main__buttonContainer">
             <button
               className={`blueButton ${loading ? 'loading' : ''}`}

@@ -33,6 +33,7 @@
 // `;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 export const getContentPlanPrompt = (
   topics: string[],
   existingTitles: string[],
@@ -40,7 +41,7 @@ export const getContentPlanPrompt = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   articleDates: any
 ) => `
-You are a blog content planner for CROCODE Lab. Generate unique blog post titles (not in the list of existing ones) and 10 relevant keywords in English for each of the following topics:
+You are a content planner for a tarot card reading blog. Generate unique blog post titles (not in the list of existing ones) and 10 relevant keywords in English for each of the following topics:
 
 ${topics.join(', ')}
 

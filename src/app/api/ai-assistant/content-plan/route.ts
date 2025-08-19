@@ -1,7 +1,7 @@
 // api/ai-assistant/routes/content-plan
 
 import { NextRequest, NextResponse } from "next/server";
-import { openai } from '../Assistant';
+import createAssistant, { openai } from '../Assistant';
 
 // export async function POST(req: NextRequest) {
 //   try {
@@ -83,6 +83,10 @@ export async function POST(req: NextRequest) {
   try {
     const { prompt } = await req.json();
     const assistantId = process.env.CROCODE_ASSISTANT_ID || null;
+
+  if(assistantId === null){
+    createAssistant()
+  }
 
     console.log("⏳ Получен запрос. Prompt:", prompt);
     console.log("🧠 Assistant ID:", assistantId);
