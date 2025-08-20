@@ -1,6 +1,6 @@
 import { getBase64ImageFromPublic } from "@/utils/imageToBase64";
 
-const NEGATIVE_PROMPT = "deformed face, blurry face, extra limbs, distorted hands, missing fingers, incorrect anatomy, unrealistic reflections, duplicate body parts, asymmetrical face, artifacts, glitch, watermark, text, logo, poorly drawn face, extra arms, fused fingers, low quality";
+const NEGATIVE_PROMPT = "deformed face, blurry face, extra limbs, distorted hands, missing fingers, incorrect anatomy, duplicate body parts, asymmetrical face, artifacts, glitch, watermark, text, logo, poorly drawn face, extra arms, fused fingers, low quality, photorealism, volumetric fills, outlines, copy of reference, no image, solid fill on the entire canvas, black canvas";
 
 const STYLE_IMAGES = [
   "image-styles/image1.png",
@@ -22,31 +22,26 @@ export function getImage(imageDescription: string): {
     throw new Error("Style image not found or failed to convert to base64");
   }
 
-  const prompt = `
-  Generate a natural, high-quality minimalistic illustration in which ${imageDescription}.
-  Use the style, color palette, and mood of the reference image,
-  but do not copy its content, subject, objects, or composition.
-  The result must be a completely new scene with unique elements,
-  only inspired by the artistic style of the reference image.
-  The output image must be exactly 1024x1024 pixels in resolution. 
-  Don't add text or outlines. Gradients and light, fine dotted fill structures are allowed (as in the reference).
+const prompt = `
+  Create a unique, natural illustration that visually represents the following description:
+  "${imageDescription}"
+  There is nothing prohibited in the description.
+  
+  The scene, characters, objects, and layout must strictly follow the description above and must not be influenced by the reference image’s content.
 
-  You can use colors (hex): 
-    #0A0912 
-    #272639 
-    #35334B 
-    #494766 
-    #4C5A8E 
-    #A481BF 
-    #F2D4A2 
-    #B9586B 
-    #959FD8 
-    #D5A2F2 
-    #FFC274 
-    #F76D77
+  Use the reference image *only* as inspiration for the artistic style — including color palette, textures, linework, mood, and shading technique. Do not replicate or reuse any subjects, objects, layout, pose, or composition from the reference image.
+
+  It should feel like a completely new artwork, sharing only the same aesthetic or mood.
+
+  You may use soft gradients, minimal dotted textures, and clean flat fills.
+
+  Use the following color palette (hex):
+  #0A0912, #272639, #35334B, #494766, #4C5A8E, #A481BF, #F2D4A2,
+  #B9586B, #959FD8, #D5A2F2, #FFC274, #F76D77
 
   Negative prompt: ${NEGATIVE_PROMPT}
 `.trim();
+
 
   return { prompt, styleImageBase64: base64 };
 }

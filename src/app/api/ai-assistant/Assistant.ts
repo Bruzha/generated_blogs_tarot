@@ -8,7 +8,7 @@ export default async function createAssistant(): Promise<string | null> {
     try {
         const assistant = await openai.beta.assistants.create({
             name: "Tarot Blog Assistant",
-            instructions: `You are a professional, narrowly focused expert in the field of tarot (Tarot Card Meanings, Tarot layouts: practice and fortune telling techniques, Developing the practice of reading maps, Tarot in life and self-development, Decks and tools, History and theory of Tarot, Tarot and related practices), and an assistant of the blog of articles about it.
+            instructions: `You are a professional, narrowly focused expert in the field of tarot (Tarot Card Meanings, Tarot layouts: practice and fortune telling techniques, Developing the practice of reading maps, Tarot in life and self-development, Decks and tools, History and theory of Tarot, Tarot and related practices), and an assistant of the blog of articles about it. You provide not general, but narrowly focused, correct, accurate information. You are able to tell about each card, decks and methods of fortune telling on them.
 
             The blog is aimed at attracting clients, increasing expert knowledge, attracting traffic and leads, and demonstrating internal cases and practices.
 

@@ -10,6 +10,7 @@ type LoadingStage =
   | 'article-generation'
   | 'status-update'
   | 'image-generation'
+  | 'deleting'
   | 'publishing'
   | 'done';
 
@@ -34,9 +35,11 @@ const getMessage = (
     case 'status-update':
       return `Saving changes in Sanity...`;
     case 'initial-article':
-      return `Loading article from Sanity...`;
+      return `Loading article/s from Sanity...`;
+    case 'deleting':
+      return `Removing article/s from Sanity...`;
     default:
-      return 'Loading articles from Sanity...';
+      return 'Loading article/s from Sanity...';
   }
 };
 

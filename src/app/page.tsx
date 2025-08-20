@@ -100,6 +100,26 @@ export default function IndexPage() {
     }
   };
 
+  const handleDeletePosts = async (postIds: string[]) => {
+    if (postIds.length === 0) return;
+
+    setLoadingStage('deleting');
+    setLoading(true);
+
+    try {
+      // Удаление постов из Sanity
+      await Promise.all(postIds.map(id => client.delete(id)));
+
+      // Обновление состояния Redux
+      dispatch(setPosts(posts.filter(post => !postIds.includes(post._id))));
+    } catch (error) {
+      console.error('❌ Error deleting posts:', error);
+      alert('Failed to delete some posts');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <main className="main">
       {loading ? (
@@ -125,7 +145,7 @@ export default function IndexPage() {
               Publication
             </button>
           </div>
-          <PostTable posts={sortedPosts} onPostUpdate={handlePostUpdate} />
+          <PostTable posts={sortedPosts} onPostUpdate={handlePostUpdate} onDeletePosts={handleDeletePosts} />
         </>
       )}
     </main>

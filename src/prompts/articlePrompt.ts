@@ -24,6 +24,7 @@ Write an engaging, SEO-friendly article in English using:
      \`<img src="" data-image-description="[IMAGE: detailed description about ${topic} and ${title}]" alt="...">\`
      - Be creative and specific: describe subject, features, background, mood, and image focus
      - For faces, hands — ensure correct anatomy or positioning
+     - The description must not violate the rules of Flux generation
 
 3. **Conclusion**
    - Summarize key takeaways or next step
@@ -35,7 +36,6 @@ Write an engaging, SEO-friendly article in English using:
      - Alt text (≤125 chars)
      - Meta title (≤60 chars)
      - Meta description (≤160 chars)
-     - Internal links to CROCODE pages (2–4 max)
    - Ensure 95%+ uniqueness
    - Write naturally (no keyword stuffing)
 

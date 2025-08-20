@@ -96,24 +96,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Prompt or assistantId missing" }, { status: 400 });
     }
 
-    // 🧵 Создание thread
-    console.log("🔧 Создаём thread...");
     const thread = await openai.beta.threads.create();
-    console.log("✅ Thread создан:", thread.id);
-
-    // 📨 Отправляем сообщение от пользователя
     await openai.beta.threads.messages.create(thread.id, { role: "user", content: prompt });
-    console.log("📨 Сообщение отправлено в thread");
-
-    // ▶️ Запуск run
     let run = await openai.beta.threads.runs.create(thread.id, { assistant_id: assistantId });
-    console.log("🚀 Run запущен:", run.id);
 
     const timeoutMs = 60000;
     const startTime = Date.now();
 
     while (run.status !== "completed" && Date.now() - startTime < timeoutMs) {
-      console.log("⏱️ Ожидание завершения run... Текущий статус:", run.status);
 
       if (run.status === "requires_action" && run.required_action?.type === "submit_tool_outputs") {
         const toolCalls = run.required_action.submit_tool_outputs.tool_calls;
@@ -135,8 +125,6 @@ export async function POST(req: NextRequest) {
             };
           })
         );
-
-        console.log("📤 Отправляем результаты функций:", toolOutputs);
 
         await openai.beta.threads.runs.submitToolOutputs(run.id, {
           tool_outputs: toolOutputs,
@@ -163,10 +151,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // 📬 Получение финальных сообщений
-    console.log("📥 Получаем сообщения от ассистента...");
     const messages = await openai.beta.threads.messages.list(thread.id);
-    console.log("📨 Все сообщения:", JSON.stringify(messages, null, 2));
 
     const assistantMessages = messages.data.filter((m) => m.role === "assistant");
 
@@ -179,8 +164,6 @@ export async function POST(req: NextRequest) {
         }
       }
     }
-
-    console.log("✅ Ответ ассистента получен:", text.trim());
 
     return NextResponse.json({ result: { text: text.trim() } });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
