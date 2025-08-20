@@ -20,7 +20,7 @@ Write an engaging, SEO-friendly article in English using:
      - lists, use cases, quotes, tables, mini-cases, FAQ, pros/cons, action plans, etc.
    - Add any useful design elements (e.g. tables, bullet points, emoji, blocks)
 
-   - Include 1 image:
+   - Add 1 image at the beginning of the article:
      \`<img src="" data-image-description="[IMAGE: detailed description about ${topic} and ${title}]" alt="...">\`
      - Be creative and specific: describe subject, features, background, mood, and image focus
      - For faces, hands — ensure correct anatomy or positioning
