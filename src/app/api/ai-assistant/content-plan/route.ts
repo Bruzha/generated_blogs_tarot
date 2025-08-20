@@ -143,7 +143,7 @@ export async function POST(req: NextRequest) {
 
       if (["failed", "cancelled", "expired"].includes(run.status)) {
         console.error("❌ Run завершился с ошибкой:", run.status);
-        console.error("🪵 Подробности ошибки:", run.last_error);
+        console.error("Подробности ошибки:", run.last_error);
         return NextResponse.json(
           { error: `Run failed: ${run.status}`, details: run.last_error },
           { status: 500 }

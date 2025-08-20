@@ -17,24 +17,20 @@ export default async function fetchContentPlan(promptContentPlan: string): Promi
 
         const text = data.result.text;
 
-        // Извлекаем JSON-строку из текста (если она обернута в markdown-блоки)
         const jsonString = text.substring(text.indexOf('['), text.lastIndexOf(']') + 1);
 
         try {
             const parsedResult = JSON.parse(jsonString);
-
-            // Проверяем, что результат - массив
             if (!Array.isArray(parsedResult)) {
                 console.error("❌ Expected a JSON array, but received:", parsedResult);
                 return null;
             }
 
-            // Фильтруем Skipped элементы (если нужно)
             const filteredResult = parsedResult.filter(item => {
                 return !(item.title === "Skipped" || item.keywords === "Skipped");
             });
 
-            return filteredResult; // Возвращаем отфильтрованный массив
+            return filteredResult;
         } catch (parseError) {
             console.error("❌ Error parsing JSON:", parseError);
             return null;
