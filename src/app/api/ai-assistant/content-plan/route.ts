@@ -2,6 +2,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import createAssistant, { openai } from '../Assistant';
+import { getAllTarotCards } from "../getTarotCardsList";
 
 // export async function POST(req: NextRequest) {
 //   try {
@@ -88,9 +89,6 @@ export async function POST(req: NextRequest) {
     createAssistant()
   }
 
-    console.log("⏳ Получен запрос. Prompt:", prompt);
-    console.log("🧠 Assistant ID:", assistantId);
-
     if (!prompt || !assistantId) {
       console.error("❌ Ошибка: отсутствует prompt или assistantId");
       return NextResponse.json({ error: "Prompt or assistantId missing" }, { status: 400 });
@@ -107,15 +105,23 @@ export async function POST(req: NextRequest) {
 
       if (run.status === "requires_action" && run.required_action?.type === "submit_tool_outputs") {
         const toolCalls = run.required_action.submit_tool_outputs.tool_calls;
-        console.log("🔧 Ассистент требует выполнения функций:", toolCalls.map(t => t.function.name));
 
         const toolOutputs = await Promise.all(
           toolCalls.map(async (toolCall) => {
             if (toolCall.function.name === "getCurrentDate") {
               const today = new Date().toISOString().split("T")[0];
+              console.log("Function getCurrentDate")
               return {
                 tool_call_id: toolCall.id,
                 output: JSON.stringify({ date: today }),
+              };
+            }
+            if (toolCall.function.name === "getTarotCards") {
+              const tarotCards = getAllTarotCards();
+              console.log("Function getTarotCards")
+              return {
+                tool_call_id: toolCall.id,
+                output: JSON.stringify({ cards: tarotCards }),
               };
             }
 

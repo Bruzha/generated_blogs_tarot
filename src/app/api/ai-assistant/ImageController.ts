@@ -7,22 +7,63 @@ fal.config({
   credentials: process.env.FAL_KEY as string,
 });
 
+// export async function generateImageWithFlux(
+//   prompt: string,
+//   imageBase64: string
+// ): Promise<string | null> {
+//   try {
+//     const resizedImage = await resizeBase64Image(imageBase64, 1024, 748);
+//     console.log("prompt: ", prompt);
+//     const result = await fal.subscribe("fal-ai/flux/dev/image-to-image", {
+//       input: {
+//         image_url: resizedImage,
+//         prompt,
+//         strength: 0.9,
+//         guidance_scale: 7,
+//         num_inference_steps: 50,
+//       },
+//       logs: true,
+//     });
+
+//     const generatedUrl = result.data?.images?.[0]?.url;
+//     if (!generatedUrl) {
+//       console.warn("Flux returned no image URL");
+//       return null;
+//     }
+
+//     return await fetchAndOptimizeImage(generatedUrl);
+//   } catch (error) {
+//     console.error("Error generating image with Flux:", error);
+//     return null;
+//   }
+// }
+
 export async function generateImageWithFlux(
   prompt: string,
-  imageBase64: string
+  imageBase64s: string[]
 ): Promise<string | null> {
   try {
-    const resizedImage = await resizeBase64Image(imageBase64, 1024, 748);
-    console.log("prompt: ", prompt);
-    const result = await fal.subscribe("fal-ai/flux/dev/image-to-image", {
+    if (!imageBase64s || imageBase64s.length === 0) {
+      throw new Error("No reference images provided");
+    }
+
+    const imageUrls: string[] = await Promise.all(
+      imageBase64s.map(async (base64) => {
+        const resized = await resizeBase64Image(base64, 1024, 748);
+        return await resized;
+      })
+    );
+
+    console.log("Prompt: ", prompt);
+
+    const result = await fal.subscribe("fal-ai/flux-pro/kontext/max/multi", {
       input: {
-        image_url: resizedImage,
         prompt,
-        strength: 0.9,
-        guidance_scale: 5.8,
-        num_inference_steps: 40,
+        image_urls: imageUrls,
+        guidance_scale: 8,
+        num_images: 1
       },
-      logs: true,
+      logs: true
     });
 
     const generatedUrl = result.data?.images?.[0]?.url;
