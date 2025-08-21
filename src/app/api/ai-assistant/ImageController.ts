@@ -18,8 +18,8 @@ export async function generateImageWithFlux(
       input: {
         image_url: resizedImage,
         prompt,
-        strength: 0.8,
-        guidance_scale: 5.5,
+        strength: 0.9,
+        guidance_scale: 5.8,
         num_inference_steps: 40,
       },
       logs: true,
