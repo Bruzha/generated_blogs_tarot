@@ -41,7 +41,7 @@ Write an engaging, SEO-friendly article in English using:
 
 5. **Creativity**
    - Feel free to vary structure across articles
-   - Light humor, analogies, code snippets, or mini-dialogues welcome if helpful
+   - Light humor, analogies or mini-dialogues welcome if helpful
 
 Tone: confident, smart, lightly ironic — like sharing insights with peers.
 

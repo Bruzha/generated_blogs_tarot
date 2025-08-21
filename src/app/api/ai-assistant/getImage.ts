@@ -30,7 +30,7 @@ const prompt = `
     - Do not replicate content, layout, or composition from the reference image
     - Use the reference only for artistic style (color, texture, mood, shading)
     -Make it feel like a new artwork that shares the same aesthetic.
-  Style: Soft gradients, minimal dotted textures, clean flat fills, without outline.
+  Style: Soft gradients, minimal dotted textures, clean flat fills, 2D, without outline.
   Color palette (hex):
     #0A0912, #272639, #35334B, #494766, #4C5A8E, #A481BF, #F2D4A2,
     #B9586B, #959FD8, #D5A2F2, #FFC274, #F76D77
