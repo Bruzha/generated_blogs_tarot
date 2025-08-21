@@ -13,7 +13,7 @@ export async function generateImageWithFlux(
 ): Promise<string | null> {
   try {
     const resizedImage = await resizeBase64Image(imageBase64, 1024, 748);
-
+    console.log("prompt: ", prompt);
     const result = await fal.subscribe("fal-ai/flux/dev/image-to-image", {
       input: {
         image_url: resizedImage,
