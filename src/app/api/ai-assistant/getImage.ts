@@ -7,8 +7,7 @@ const STYLE_IMAGES = [
   "image-styles/image2.png",
   "image-styles/image3.png",
   "image-styles/image4.png",
-  "image-styles/image5.png",
-  "image-styles/image6.png"
+  "image-styles/image5.png"
 ];
 
 export function getImage(imageDescription: string): {
