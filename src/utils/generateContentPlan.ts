@@ -75,15 +75,21 @@ export async function generateContentPlan(
 
         const { modifiedBodyContent } = await generateImagesForArticle(bodyContent);
 
+        const slugBase = contentPlan.title.toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-') // заменяем все не-буквы/цифры на "-"
+          .replace(/^-+|-+$/g, '');     // убираем начальные и конечные "-"
+
+        const timestamp = new Date().toISOString(); // ISO-строка безопасна для ID
+        const safeTimestamp = timestamp.replace(/[^a-z0-9]+/gi, '-'); // на случай если символы есть
+
+        const fullSlug = `${slugBase}-${safeTimestamp}`;
+
         const newPost = {
           _type: 'post',
           title: contentPlan.title,
           slug: {
             _type: 'slug',
-            current: contentPlan.title
-              .toLowerCase()
-              .replace(/[^a-z0-9]+/g, '-')
-              .replace(/^-*|-*$/g, ''),
+            current: fullSlug,
           },
           publishedAt: date,
           body: modifiedBodyContent,
@@ -93,7 +99,7 @@ export async function generateContentPlan(
 
         const updatedDoc = await client.create({
           ...newPost,
-          _id: `drafts.${newPost.slug.current}`,
+          _id: `drafts.${fullSlug}`,
         });
 
         const postToStore: PostType = {

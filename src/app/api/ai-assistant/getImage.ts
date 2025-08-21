@@ -66,9 +66,6 @@ Instructions:
   - Use the first reference image as a style, the second (if you have one) - to insert the tarot cards into the final image
   - If you have Tarot cards, make sure they don't have deformed faces
 Style: Soft gradients, minimal dotted textures, clean flat fills, 2D, without outline.
-Color palette (hex):
-  #0A0912, #272639, #35334B, #494766, #4C5A8E, #A481BF, #F2D4A2,
-  #B9586B, #959FD8, #D5A2F2, #FFC274, #F76D77
 
 Negative prompt: ${NEGATIVE_PROMPT}
 `.trim();
