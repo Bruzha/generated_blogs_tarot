@@ -48,7 +48,7 @@ export async function generateContentPlan(
 
   const articlePromises = [];
 
-  for (let i = 0; i < 1; i++) {
+  for (let i = 0; i < articleDates.length; i++) {
     const contentPlan = combinedContentPlan[i];
     const date = articleDates[i].toLocaleDateString('en-CA', {
       year: 'numeric',
