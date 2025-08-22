@@ -60,7 +60,7 @@ export async function generateImageWithFlux(
       input: {
         prompt,
         image_urls: imageUrls,
-        guidance_scale: 8,
+        guidance_scale: 7,
         num_images: 1
       },
       logs: true

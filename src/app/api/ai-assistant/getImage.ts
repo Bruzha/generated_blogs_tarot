@@ -1,6 +1,6 @@
 import { getBase64ImageFromPublic } from "@/utils/imageToBase64";
 
-const NEGATIVE_PROMPT = "deformed face, blurry face, extra limbs, distorted hands, missing fingers, incorrect anatomy, asymmetrical face, watermark, text, logo, poorly drawn face, distorted tarot card, illegible symbols, nightmare tarot, malformed text on card, fake cards, ugly symbols, incorrect tarot, outline, crooked faces on tarot";
+const NEGATIVE_PROMPT = "deformed face, blurry face, extra limbs, distorted hands, missing fingers, incorrect anatomy, asymmetrical face, watermark, outline, poorly drawn face, distorted tarot card, illegible symbols, nightmare tarot, malformed text on card, fake cards, ugly symbols, incorrect tarot, outline, crooked faces on tarot";
 
 const STYLE_IMAGES = [
   "image-styles/image1.png",
@@ -64,9 +64,8 @@ Create a natural illustration based on the following description:
 
 Instructions:
   - Use the first reference image as a style, the second (if you have one) - to insert the tarot cards into the final image
-  - If you have Tarot cards, make sure they don't have deformed faces
-Style: Soft gradients, minimal dotted textures, clean flat fills, 2D, without outline.
-
+  - If you have Tarot cards, make sure that the faces are not deformed and that the text is correct and legible
+Style: Soft gradients, 2D clean flat fills without outline.
 Negative prompt: ${NEGATIVE_PROMPT}
 `.trim();
 console.log("styleImages: ", styleImages.length);

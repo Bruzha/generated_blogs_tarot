@@ -25,7 +25,7 @@ Write an engaging, SEO-friendly article in English using:
      - Be creative and specific: describe subject, features, background, mood, and image focus
      - For faces, hands — ensure correct anatomy or positioning
      - The description must not violate the rules of Flux generation
-     - If tarot cards are mentioned, it is necessary to indicate in detail where they are (for example, on the table), how they are laid out (front or back of each card), how many there are, what they are specifically from the deck (list and name them, for example "The Fool"). Be as specific as possible with the cards. Card names must be in quotation marks, example: "The Fool".
+     - If tarot cards are mentioned, it is necessary to indicate in detail where they are, how they are laid out (front or back of each card), how many there are, what they are specifically from the deck (list and name them, for example "The Fool"). Be as specific as possible with the cards. Card names must be in quotation marks.
 
 3. **Conclusion**
    - Summarize key takeaways or next step
