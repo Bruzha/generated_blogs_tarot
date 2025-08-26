@@ -48,7 +48,7 @@ export async function generateContentPlan(
 
   const articlePromises = [];
 
-  for (let i = 0; i < articleDates.length; i++) {
+  for (let i = 0; i < 1; i++) {
     const contentPlan = combinedContentPlan[i];
     const date = articleDates[i].toLocaleDateString('en-CA', {
       year: 'numeric',
@@ -76,11 +76,11 @@ export async function generateContentPlan(
         const { modifiedBodyContent } = await generateImagesForArticle(bodyContent);
 
         const slugBase = contentPlan.title.toLowerCase()
-          .replace(/[^a-z0-9]+/g, '-') // заменяем все не-буквы/цифры на "-"
-          .replace(/^-+|-+$/g, '');     // убираем начальные и конечные "-"
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '');
 
-        const timestamp = new Date().toISOString(); // ISO-строка безопасна для ID
-        const safeTimestamp = timestamp.replace(/[^a-z0-9]+/gi, '-'); // на случай если символы есть
+        const timestamp = new Date().toISOString();
+        const safeTimestamp = timestamp.replace(/[^a-z0-9]+/gi, '-');
 
         const fullSlug = `${slugBase}-${safeTimestamp}`;
 
