@@ -20,7 +20,7 @@ export default function ArticleClient({ slug }: Props) {
   useEffect(() => {
     async function fetchPostFromSanity() {
       try {
-        const query = `*[_type == "post" && slug.current == $slug][0]`;
+        const query = `*[_type == "articlesItem" && slug.current == $slug][0]`;
         const fetchedPost = await client.fetch(query, { slug });
 
         if (fetchedPost) {

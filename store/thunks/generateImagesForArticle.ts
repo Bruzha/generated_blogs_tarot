@@ -3,10 +3,13 @@ export default async function generateImagesForArticle(bodyContent: string) {
 
   let match;
   let modifiedBodyContent = bodyContent;
+  let alt;
+  let image;
 
   while ((match = imagePlaceholderRegex.exec(bodyContent)) !== null) {
     const originalTag = match[0];
     const imageDescription = match[1].trim();
+    alt = match[2].trim();
 
     try {
       const imageResponse = await fetch('/api/ai-assistant/image', {
@@ -26,7 +29,7 @@ export default async function generateImagesForArticle(bodyContent: string) {
         console.error(`❌ Invalid base64 image data:`, base64Image);
         continue;
       }
-
+      image = base64Image;
       const updatedTag = originalTag.replace('src=""', `src="${base64Image}"`);
       const escapedOriginalTag = originalTag.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       const tagRegex = new RegExp(escapedOriginalTag, 'g');
@@ -37,5 +40,5 @@ export default async function generateImagesForArticle(bodyContent: string) {
     }
   }
 
-  return { modifiedBodyContent };
+  return { modifiedBodyContent, alt, image};
 }
