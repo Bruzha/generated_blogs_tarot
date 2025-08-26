@@ -8,7 +8,7 @@ Write an engaging, SEO-friendly article in English using:
 - **Keywords**: ${keywords}
 
 ### Article structure:
-
+ 
 1. **Introduction**
    - 2–3 short paragraphs
    - Hook the reader: story, fact, or scenario
