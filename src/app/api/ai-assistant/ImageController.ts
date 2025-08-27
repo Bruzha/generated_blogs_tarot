@@ -2,41 +2,9 @@ import { fal } from "@fal-ai/client";
 import { fetch } from "undici";
 import sharp from "sharp";
 
-// Подключение API-ключа
 fal.config({
   credentials: process.env.FAL_KEY as string,
 });
-
-// export async function generateImageWithFlux(
-//   prompt: string,
-//   imageBase64: string
-// ): Promise<string | null> {
-//   try {
-//     const resizedImage = await resizeBase64Image(imageBase64, 1024, 748);
-//     console.log("prompt: ", prompt);
-//     const result = await fal.subscribe("fal-ai/flux/dev/image-to-image", {
-//       input: {
-//         image_url: resizedImage,
-//         prompt,
-//         strength: 0.9,
-//         guidance_scale: 7,
-//         num_inference_steps: 50,
-//       },
-//       logs: true,
-//     });
-
-//     const generatedUrl = result.data?.images?.[0]?.url;
-//     if (!generatedUrl) {
-//       console.warn("Flux returned no image URL");
-//       return null;
-//     }
-
-//     return await fetchAndOptimizeImage(generatedUrl);
-//   } catch (error) {
-//     console.error("Error generating image with Flux:", error);
-//     return null;
-//   }
-// }
 
 export async function generateImageWithFlux(
   prompt: string,
@@ -61,7 +29,7 @@ export async function generateImageWithFlux(
         prompt,
         image_urls: imageUrls,
         guidance_scale: 7,
-        num_images: 1
+        num_images: 1,
       },
       logs: true
     });
@@ -80,10 +48,36 @@ export async function generateImageWithFlux(
 }
 
 
+// async function fetchAndOptimizeImage(imageUrl: string): Promise<string | null> {
+//   try {
+//     const res = await fetch(imageUrl);
+//     if (!res.ok) throw new Error(res.statusText);
+//     const buffer = Buffer.from(await res.arrayBuffer());
+//     const image = sharp(buffer);
+//     const metadata = await image.metadata();
+
+//     const webp = await image
+//       .resize({ width: 1024, fit: sharp.fit.inside, withoutEnlargement: true })
+//       .webp({ quality: 70, alphaQuality: metadata.hasAlpha ? 70 : undefined })
+//       .toBuffer();
+
+//     return `data:image/webp;base64,${webp.toString("base64")}`;
+//   } catch (err) {
+//     console.error("Error optimizing Flux image:", err);
+//     return null;
+//   }
+// }
+
 async function fetchAndOptimizeImage(imageUrl: string): Promise<string | null> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 60000); // 60 сек таймаут
+
   try {
-    const res = await fetch(imageUrl);
-    if (!res.ok) throw new Error(res.statusText);
+    console.log("Fetching image from URL:", imageUrl);
+
+    const res = await fetch(imageUrl, { signal: controller.signal });
+    if (!res.ok) throw new Error(`Fetch failed: ${res.statusText}`);
+
     const buffer = Buffer.from(await res.arrayBuffer());
     const image = sharp(buffer);
     const metadata = await image.metadata();
@@ -97,8 +91,11 @@ async function fetchAndOptimizeImage(imageUrl: string): Promise<string | null> {
   } catch (err) {
     console.error("Error optimizing Flux image:", err);
     return null;
+  } finally {
+    clearTimeout(timeout);
   }
 }
+
 
 async function resizeBase64Image(base64: string, width: number, height: number): Promise<string> {
   const base64Data = base64.replace(/^data:image\/\w+;base64,/, "");

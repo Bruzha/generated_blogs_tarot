@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import "./style.scss";
+import { PortableTextBlock } from '@portabletext/types';
 
 export interface PostType {
   _id: string;
@@ -11,11 +12,11 @@ export interface PostType {
   slug: {
     current: string;
   };
-  publishedAt: string;
+  date: string;
   image?: string | null;
-  body: string;
+  content?:  PortableTextBlock[];
   bodyContent?: string;
-  status: string;
+  status?: string;
 }
 
 interface PostTableProps {
@@ -78,7 +79,6 @@ export default function PostTable({ posts, onPostUpdate, onDeletePosts }: PostTa
         <thead>
           <tr>
             <th>Status Select</th>
-            <th>Status</th>
             <th>Date</th>
             <th>Title</th>
             <th>Delete</th>
@@ -95,8 +95,7 @@ export default function PostTable({ posts, onPostUpdate, onDeletePosts }: PostTa
                   onChange={() => handleCheckboxChange(post)}
                 />
               </td>
-              <td className="status">{post.status}</td>
-              <td> {post.publishedAt ? format(new Date(post.publishedAt), 'dd.MM.yyyy') : '—'}</td>
+              <td> {post.date ? format(new Date(post.date), 'dd.MM.yyyy') : '—'}</td>
               <td className="link">
                 <Link href={`/article/${post.slug.current}`} className="blueLink">
                   {post.title}

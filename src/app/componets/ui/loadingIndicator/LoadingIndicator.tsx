@@ -12,6 +12,7 @@ type LoadingStage =
   | 'image-generation'
   | 'deleting'
   | 'publishing'
+  | 'create-other-version'
   | 'done';
 
 interface LoadingIndicatorProps {
@@ -38,6 +39,8 @@ const getMessage = (
       return `Loading article/s from Sanity...`;
     case 'deleting':
       return `Removing article/s from Sanity...`;
+    case 'create-other-version':
+      return `Translation of the article into Russian and Ukrainian...`;
     default:
       return 'Loading article/s from Sanity...';
   }
