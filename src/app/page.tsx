@@ -28,6 +28,7 @@ export default function IndexPage() {
       setLoading(true);
       try {
         const allPosts = await client.fetch(`*[_type == "articlesItem" && i18n_lang == "en"] | order(date desc)`);
+        console.log("allPosts: ", allPosts)
         //const allPosts = await client.fetch(`*[_type == "articlesItem"] | order(date desc)`);
         dispatch(setPosts(allPosts));
         if (!allPosts || allPosts.length === 0) {
@@ -102,26 +103,6 @@ export default function IndexPage() {
     }
   };
 
-  // const handleDeletePosts = async (postIds: string[]) => {
-  //   if (postIds.length === 0) return;
-
-  //   setLoadingStage('deleting');
-  //   setLoading(true);
-
-  //   try {
-  //     // Удаление постов из Sanity
-  //     await Promise.all(postIds.map(id => client.delete(id)));
-
-  //     // Обновление состояния Redux
-  //     dispatch(setPosts(posts.filter(post => !postIds.includes(post._id))));
-  //   } catch (error) {
-  //     console.error('❌ Error deleting posts:', error);
-  //     alert('Failed to delete some posts');
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
 const handleDeletePosts = async (postIds: string[]) => {
   if (postIds.length === 0) return;
 
@@ -130,25 +111,16 @@ const handleDeletePosts = async (postIds: string[]) => {
 
   try {
     for (const id of postIds) {
-      // 1️⃣ Находим все связанные документы (переводы + базовый)
       const query = `*[_type == "articlesItem" && (references($id) || _id == $id)]._id`;
       const allIds = await client.fetch<string[]>(query, { id });
 
       if (allIds.length === 0) continue;
-
-      // 2️⃣ Создаём транзакцию
       const transaction = client.transaction();
-
-      // Сначала удаляем переводы (они ссылаются на базовый)
       const translations = allIds.filter(docId => docId !== id);
       translations.forEach(docId => transaction.delete(docId));
-
-      // Потом удаляем базовый
       transaction.delete(id);
 
       await transaction.commit();
-
-      // 3️⃣ Обновляем Redux
       dispatch(setPosts(posts.filter(post => !allIds.includes(post._id))));
     }
   } catch (error) {

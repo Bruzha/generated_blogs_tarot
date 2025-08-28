@@ -5,13 +5,11 @@ export const getContentPlanPrompt = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   articleDates: any
 ) => `
-You are a content planner for a tarot card reading blog. Generate unique blog post titles (not in the list of existing ones) and 10 relevant keywords in English for each of the following topics:
+You are a content planner for a blog about tarot card reading. Create unique titles for posts (not from the list of existing ones) and add 10 relevant keywords in English, taking into account the categories for each article:
 
 ${topics.join(', ')}
 
-Create exactly ${articleDates.length} entries. Titles must be **unique** and **non-repetitive**.
-
-Avoid using these existing titles: ${existingTitles.slice(0, 30).join(', ')}${existingTitles.length > 30 ? ', ...' : ''}
+Create exactly ${articleDates.length} entries. Titles must be unique and non-repetitive.
 
 Output format:
 \`\`\`json

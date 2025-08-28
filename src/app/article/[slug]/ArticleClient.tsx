@@ -63,7 +63,7 @@
 'use client';
 
 import { PostType } from '@/app/componets/ui/postTable/PostTable';
-import { client } from '@/sanity/client';
+import { client, urlFor } from '@/sanity/client';
 import { format } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -128,7 +128,7 @@ export default function ArticleClient({ slug }: Props) {
               image: ({ value }) => (
                 <div className="article__image">
                   <Image
-                    src={value.src || '/placeholder.jpg'}
+                    src={urlFor(value).width(800).height(500).url()}
                     alt={value.alt || ''}
                     width={800}
                     height={500}

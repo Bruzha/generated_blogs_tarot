@@ -1,5 +1,5 @@
 import { getTuesdaysAndFridaysForNextMonth } from "./dateUtils";
-import { exampleContentPlan, topics } from "./ArticleTemplate";
+import { exampleContentPlan } from "./ArticleTemplate";
 import { getContentPlanPrompt } from "@/prompts/contentPlanPrompt";
 import fetchContentPlan from "../../store/thunks/fetchContentPlan";
 import { getArticlePrompt } from "@/prompts/articlePrompt";
@@ -27,14 +27,35 @@ export async function generateContentPlan(
   const articleDates = getTuesdaysAndFridaysForNextMonth();
 
   const selectedCategories = await selectCategoriesForDates(articleDates);
-  console.log('Selected categories:', selectedCategories);
 
-  const topicsForArticles = Array.from({ length: articleDates.length }, () => {
-    return topics[Math.floor(Math.random() * topics.length)];
+  if (!selectedCategories || Object.keys(selectedCategories).length === 0) {
+    setLoading(false); 
+    setLoadingStage('initial');
+    return;                  
+  }
+
+  // const topicsForArticles = Array.from({ length: articleDates.length }, () => {
+  //   return topics[Math.floor(Math.random() * topics.length)];
+  // });
+
+  const allCategoryIds = Object.values(selectedCategories).flat();
+  const uniqueCategoryIds = [...new Set(allCategoryIds)];
+  const categoriesData = await client.fetch<{ _id: string; title: string }[]>(
+    `*[_type == "blogCategory" && _id in $ids]{_id, title}`,
+    { ids: uniqueCategoryIds }
+  );
+  const categoriesForPrompt: string[] = articleDates.map(d => {
+    const dateKey = d.toISOString().split('T')[0];
+    const catsForDate = selectedCategories[dateKey] || [];
+    const titles = catsForDate
+      .map(catId => categoriesData.find(cat => cat._id === catId)?.title)
+      .filter(Boolean);
+    return titles.join(', ');
   });
 
+  console.log("categoriesForPrompt: ", categoriesForPrompt)
   const combinedPromptContentPlan = getContentPlanPrompt(
-    topicsForArticles,
+    categoriesForPrompt,
     existingTitles,
     exampleContentPlan,
     articleDates
@@ -66,7 +87,7 @@ export async function generateContentPlan(
         const promptArticle = getArticlePrompt(
           contentPlan.title,
           contentPlan.keywords,
-          topicsForArticles[i]
+          categoriesForPrompt[i]
         );
 
         const bodyContent = await fetchArticleContent(promptArticle);
@@ -74,7 +95,6 @@ export async function generateContentPlan(
         console.log("bodyContent: ", bodyContent);
         setLoadingStage('image-generation');
 
-        // Генерация изображений
         const { modifiedBodyContent, images } = await generateImagesForArticle(bodyContent);
 
         const slugBase = contentPlan.title
@@ -82,33 +102,66 @@ export async function generateContentPlan(
           .replace(/[^a-z0-9]+/g, '-')
           .replace(/^-+|-+$/g, '');
         const timestamp = new Date().toISOString().replace(/[^a-z0-9]+/gi, '-');
-        const fullSlug = `${slugBase}-${timestamp}`;
+        //const fullSlug = `${slugBase}-${timestamp}`;
 
         const cover = images.length > 0 ? { image: images[0].image, altText: images[0].altText } : undefined;
 
-        // 1️⃣ Создаём английскую версию (базовую)
+        const dateKey = d.toISOString().split('T')[0];
+        const categoriesForDate = selectedCategories[dateKey] || [];
+        
+        // английская версия
         const enArticle = {
           _type: 'articlesItem',
-          _id: fullSlug,
+          _id: timestamp,
           title: contentPlan.title,
-          slug: { _type: 'slug', current: `/${fullSlug}` },
+          slug: { _type: 'slug', current: `/${slugBase}` },
           date,
           ...(cover ? { coverImage: cover } : {}),
           seo: {},
           i18n_lang: 'en',
-          //contentRaw: modifiedBodyContent,
           content: modifiedBodyContent,
+          category: categoriesForDate.map((catId: string) => ({
+            _key: timestamp,
+            _type: 'reference',
+            _ref: catId,
+          }))
         };
 
         const createdEn = await client.create(enArticle);
         console.log("createdEn: ", createdEn);
 
-        // 2️⃣ Создаём переводы
+        const categoriesWithRefs = await client.fetch<{
+          _id: string;
+          i18n_lang: string;
+          refs: { _id: string; i18n_lang: string }[];
+        }[]>(
+          `*[_type == "blogCategory" && _id in $ids]{
+            _id,
+            i18n_lang,
+            "refs": i18n_refs[]->{ _id, i18n_lang }
+          }`,
+          { ids: categoriesForDate }
+        );
+
+        const getLocalizedCategories = (lang: 'ru' | 'uk') => {
+          return categoriesWithRefs.map(cat => {
+            if (cat.i18n_lang === lang) {
+              return { _key: timestamp, _type: 'reference', _ref: cat._id };
+            }
+            const match = cat.refs?.find(r => r.i18n_lang === lang);
+            return { _key: timestamp, _type: 'reference', _ref: match ? match._id : cat._id };
+          });
+        };
+
+        // Переводы
         setLoadingStage('create-other-version');
         const languages: ('ru' | 'uk')[] = ['ru', 'uk'];
         const translatedDocs = [];
 
         for (const lang of languages) {
+          const localizedCategories = getLocalizedCategories(lang);
+          console.log("localizedCategories: ", localizedCategories)
+
           const translatedData = await translateArticle(
             {
               title: createdEn.title,
@@ -120,22 +173,24 @@ export async function generateContentPlan(
           );
 
           const doc = {
+            _id: `${timestamp}__i18n_${lang}`,
             _type: 'articlesItem',
             title: translatedData.title,
-            slug: { _type: 'slug', current: `/${fullSlug}-${lang}` },
+            slug: { _type: 'slug', current: `/${slugBase}-${lang}` },
             date: createdEn.date,
             content: translatedData.contentRaw,
             coverImage: translatedData.coverImage,
             seo: translatedData.seo,
             i18n_lang: lang,
             i18n_base: { _type: 'reference', _ref: createdEn._id },
+            category: localizedCategories,
           };
 
           const createdDoc = await client.create(doc);
           translatedDocs.push(createdDoc);
         }
 
-        // 3️⃣ Обновляем i18n_refs у всех версий
+        // Обновление i18n_refs
         const allRefs = [createdEn, ...translatedDocs].map(d => ({ _type: 'reference', _ref: d._id }));
 
         await client.patch(createdEn._id).set({ i18n_refs: allRefs }).commit();
@@ -144,7 +199,6 @@ export async function generateContentPlan(
           await client.patch(doc._id).set({ i18n_refs: allRefs }).commit();
         }
 
-        // 4️⃣ Диспатчим только английскую версию в стор
         const postToStore: PostType = {
           _id: createdEn._id,
           title: createdEn.title,

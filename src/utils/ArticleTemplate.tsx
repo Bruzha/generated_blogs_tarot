@@ -25,11 +25,48 @@ const topics = [
     'Developing intuition and "inner voice"',
     'Self-development and Intuition: Working with the subconscious',
     'Esoteric psychology',
-    'Astrology: astrological knowledge, forecasts and training'
+    'Astrology: astrological knowledge, forecasts and training',
+    'Numerology: Meaning of numbers and their influence', 
+    'Numerology: Life path numbers and destiny numbers', 
+    'Numerology: Name and date analysis', 
+    'Numerology: Compatibility by numbers',
 ];
+
+const topicSpreads = [
+    'Tarot card meanings',
+    'Tarot and Cards: Divination layouts and techniques',
+    'Tarot and Cards: Oracles and alternative decks',
+    'Tarot and Cards: Practical tips for working with a deck',
+]
+
+const topicPractices = [
+    'Esoterics and Spiritual Practices: Meditations and visualizations',
+    'Esoterics and Spiritual Practices: Working with chakras, energies, pendulums, etc.',
+    'Esoterics and Spiritual Practices: Lucid dreams, spiritual journeys',
+    'Esoterics and Spiritual Practices: Karma and reincarnation',
+    'Esoteric psychology',
+    'Developing intuition and "inner voice"',
+    'Practices and Rituals: Creating an altar, charging objects'
+]
+
+const topicAstrology = [
+    'Astrology: Horoscopes (daily, weekly, annual)',
+    'Astrological events (retrograde, new moon, etc.)',
+    'Astrology: Natal chart and analysis',
+    'Astrology: Zodiac sign',
+    'Astrology: astrological knowledge, forecasts and training',
+]
+
+const topicNumerology = [ 
+    'Numerology: Meaning of numbers and their influence', 
+    'Numerology: Life path numbers and destiny numbers', 
+    'Numerology: Name and date analysis', 
+    'Numerology: Compatibility by numbers',
+]
+
 
 const exampleContentPlan = `
 06.08 How to Learn to Read Tarot from Scratch
 09.08 Tarot as a tool for self-knowledge`;
 
-export {topics, exampleContentPlan};
+export {topics, exampleContentPlan, topicAstrology, topicNumerology, topicPractices, topicSpreads};

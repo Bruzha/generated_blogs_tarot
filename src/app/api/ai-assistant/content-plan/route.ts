@@ -3,6 +3,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import createAssistant, { openai } from '../Assistant';
 import { getAllTarotCards } from "../getTarotCardsList";
+import { getAllArticleTitles } from "../getAllArticleTitles";
+import { getSanityContentSchema } from "../getSanityContentSchema";
 
 // export async function POST(req: NextRequest) {
 //   try {
@@ -124,7 +126,23 @@ export async function POST(req: NextRequest) {
                 output: JSON.stringify({ cards: tarotCards }),
               };
             }
+            if (toolCall.function.name === "getExistingArticleTitles") {
+              const existingTitles = await getAllArticleTitles();
+              console.log("Function getExistingArticleTitles");
+              return { 
+                tool_call_id: toolCall.id, 
+                output: JSON.stringify({ titles: existingTitles }) 
+              };
+            }
+            if (toolCall.function.name === "getSanityContentSchema") {
+              const schema = await getSanityContentSchema();
+              console.log("Function getSanityContentSchema called");
 
+              return { 
+                tool_call_id: toolCall.id, 
+                output: JSON.stringify({ schema: schema }) 
+              };
+            }
             return {
               tool_call_id: toolCall.id,
               output: JSON.stringify({ error: "Unknown function name" }),

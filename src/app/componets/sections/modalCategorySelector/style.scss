@@ -18,7 +18,10 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 
   h2 {
-    margin-bottom: 20px;
+    margin-bottom: 40px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 2rem;
   }
 
   &__list {
@@ -26,11 +29,11 @@
   }
 
   &__item {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 
     .modal__date {
       font-weight: bold;
-      margin-bottom: 8px;
+      margin-bottom: 2px;
     }
   }
 
@@ -51,7 +54,7 @@
       }
 
       &.btn-secondary {
-        background: #ccc;
+        background: #a7a7a7;
       }
     }
   }
