@@ -36,7 +36,7 @@ const getMessage = (
     case 'status-update':
       return `Saving changes in Sanity...`;
     case 'initial-article':
-      return `Loading article/s from Sanity...`;
+      return `Loading article from Sanity...`;
     case 'deleting':
       return `Removing article/s from Sanity...`;
     case 'create-other-version':

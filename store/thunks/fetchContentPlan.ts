@@ -1,5 +1,10 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default async function fetchContentPlan(promptContentPlan: string): Promise<any[] | null> {
+type ContentPlanItem = {
+    title: string;
+    description: string;
+    keywords: string;
+};
+
+export default async function fetchContentPlan(promptContentPlan: string): Promise<ContentPlanItem[] | null> {
     try {
         const response = await fetch('/api/ai-assistant/content-plan', {
             method: 'POST',
@@ -16,18 +21,22 @@ export default async function fetchContentPlan(promptContentPlan: string): Promi
         }
 
         const text = data.result.text;
-
         const jsonString = text.substring(text.indexOf('['), text.lastIndexOf(']') + 1);
 
         try {
-            const parsedResult = JSON.parse(jsonString);
+            const parsedResult: ContentPlanItem[] = JSON.parse(jsonString);
+
             if (!Array.isArray(parsedResult)) {
                 console.error("❌ Expected a JSON array, but received:", parsedResult);
                 return null;
             }
 
             const filteredResult = parsedResult.filter(item => {
-                return !(item.title === "Skipped" || item.keywords === "Skipped");
+                return !(
+                    item.title === "Skipped" ||
+                    item.description === "Skipped" ||
+                    item.keywords === "Skipped"
+                );
             });
 
             return filteredResult;

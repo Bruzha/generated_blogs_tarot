@@ -4,6 +4,7 @@ type PTBlock = Record<string, any>;
 export default async function translateArticle(
   baseArticle: {
     title: string;
+    desc: string;
     contentRaw: PTBlock[];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     seo: any;
@@ -12,7 +13,6 @@ export default async function translateArticle(
   },
   lang: 'ru' | 'uk'
 ) {
-  // Вспомогательная функция для вызова серверного API
   async function translateText(text: string, targetLang: 'ru' | 'uk') {
     const res = await fetch('/api/ai-assistant/translateText', {
       method: 'POST',
@@ -23,16 +23,13 @@ export default async function translateArticle(
     const data = await res.json();
     if (!res.ok || !data.translation) {
       console.error('Translation failed', data);
-      return text; // fallback — возвращаем исходный текст
+      return text;
     }
 
     return data.translation;
   }
-
-  // Переводим заголовок
   const translatedTitle = await translateText(baseArticle.title, lang);
-
-  // Переводим contentRaw (Portable Text) как JSON
+  const translatedDesc = await translateText(baseArticle.desc, lang);
   const translatedContentRawStr = await translateText(JSON.stringify(baseArticle.contentRaw), lang);
   let translatedContentRaw: PTBlock[] = [];
   try {
@@ -62,6 +59,7 @@ export default async function translateArticle(
 
   return {
     title: translatedTitle,
+    desc: translatedDesc,
     contentRaw: translatedContentRaw,
     seo: translatedSeo,
     coverImage: translatedCover,

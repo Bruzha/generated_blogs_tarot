@@ -47,27 +47,6 @@ export async function generateImageWithFlux(
   }
 }
 
-
-// async function fetchAndOptimizeImage(imageUrl: string): Promise<string | null> {
-//   try {
-//     const res = await fetch(imageUrl);
-//     if (!res.ok) throw new Error(res.statusText);
-//     const buffer = Buffer.from(await res.arrayBuffer());
-//     const image = sharp(buffer);
-//     const metadata = await image.metadata();
-
-//     const webp = await image
-//       .resize({ width: 1024, fit: sharp.fit.inside, withoutEnlargement: true })
-//       .webp({ quality: 70, alphaQuality: metadata.hasAlpha ? 70 : undefined })
-//       .toBuffer();
-
-//     return `data:image/webp;base64,${webp.toString("base64")}`;
-//   } catch (err) {
-//     console.error("Error optimizing Flux image:", err);
-//     return null;
-//   }
-// }
-
 async function fetchAndOptimizeImage(imageUrl: string): Promise<string | null> {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 60000); // 60 сек таймаут

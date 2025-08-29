@@ -13,6 +13,7 @@ export interface PostType {
     current: string;
   };
   date: string;
+  desc: string;
   image?: string | null;
   content?:  PortableTextBlock[];
   bodyContent?: string;

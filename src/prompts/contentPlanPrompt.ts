@@ -1,11 +1,9 @@
 export const getContentPlanPrompt = (
   topics: string[],
-  existingTitles: string[],
-  exampleContentPlan: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   articleDates: any
 ) => `
-You are a content planner for a blog about tarot card reading. Create unique titles for posts (not from the list of existing ones) and add 10 relevant keywords in English, taking into account the categories for each article:
+You are a content planner for a blog about tarot card reading. Create unique titles for posts (not from the list of existing ones) and add a description (one sentence, each word with a capital letter, example: "Analyzing How The Lunar Phases Influence Human Behavior And How To Use This Energy To Achieve Goals") and 10 relevant keywords in English, taking into account the categories for each article:
 
 ${topics.join(', ')}
 
@@ -16,6 +14,7 @@ Output format:
 [
   {
     "title": "Your unique title here",
+    "description": "Your unique description here",
     "keywords": "keyword1, keyword2, ..., keyword10"
   },
   ...
@@ -24,11 +23,8 @@ Output format:
 
 If a unique title can't be generated, return:
 \`\`\`json
-{ "title": "Skipped", "keywords": "Skipped" }
+{ "title": "Skipped", "description": "Skipped", "keywords": "Skipped" }
 \`\`\`
-
-Example:
-${exampleContentPlan}
 
 Be creative and consistent.
 `;
