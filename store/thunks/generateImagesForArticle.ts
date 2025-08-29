@@ -38,21 +38,25 @@
 //   const updatedBlocks: PTBlock[] = [];
 
 //   for (const block of blocks) {
-//     // Добавляем _key, если его нет
 //     if (!block._key) block._key = nanoid();
-
-//     // Если это блок изображения с dataImageDescription
+//     if (!('markDefs' in block)) block.markDefs = [];
+//     if (block._type === 'list' && Array.isArray(block.children)) {
+//       block.children = block.children.map((child: PTBlock) => {
+//         if (!child._key) child._key = nanoid();
+//         if (!('markDefs' in child)) child.markDefs = [];
+//         if (!child.style) child.style = 'normal';
+//         if (!Array.isArray(child.children)) child.children = [];
+//         return child;
+//       });
+//     }
 //     if (block._type === 'image' && block.dataImageDescription) {
-//       //const match = String(block.dataImageDescription).match(/\[IMAGE:(.*?)\]/i);
 //       const match = String(block.dataImageDescription).match(/\[IMAGE:\s*(.*?)\]/i);
-//       console.log("match: ", match);
 //       if (!match) {
 //         updatedBlocks.push(block);
 //         continue;
 //       }
 
 //       const imageDescription = match[1].trim();
-//       console.log("imageDescription: ", imageDescription);
 //       const altText = typeof block.alt === 'string' ? block.alt : '';
 
 //       try {
@@ -76,15 +80,12 @@
 //           continue;
 //         }
 
-//         // Конвертируем base64 в Blob и загружаем в Sanity
 //         const response = await fetch(base64Image);
 //         const blob = await response.blob();
 
 //         const uploadedAsset = await client.assets.upload('image', blob, {
 //           filename: `${Date.now()}.webp`,
 //         });
-
-//         // Создаём новый валидный PT-блок для изображения
 //         const imageBlock: PTBlock = {
 //           _key: nanoid(),
 //           _type: 'image',
@@ -112,7 +113,6 @@
 //         updatedBlocks.push(block);
 //       }
 //     } else {
-//       // Всё остальное оставляем без изменений
 //       updatedBlocks.push(block);
 //     }
 //   }
@@ -128,12 +128,6 @@ import { nanoid } from 'nanoid';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type PTBlock = Record<string, any>;
-
-const masImage = [
-  { src: "image-styles/image1.png", alt: "Astrology: Fortune telling on the planets"},
-  { src: "image-styles/image2.png", alt: "Astrology: Fortune telling on the planets"},
-  { src: "image-styles/image3.png", alt: "Astrology: Fortune telling by the position of the moon"},
-]
 
 export default async function generateImagesForArticle(
   bodyContent: unknown
@@ -171,6 +165,18 @@ export default async function generateImagesForArticle(
   for (const block of blocks) {
     if (!block._key) block._key = nanoid();
     if (!('markDefs' in block)) block.markDefs = [];
+
+    // ✅ Добавляем _key для каждого child в children
+    if (Array.isArray(block.children)) {
+      block.children = block.children.map((child: PTBlock) => {
+        if (!child._key) child._key = nanoid();
+        if (!child._type) child._type = 'span'; // безопасное значение
+        if (!('marks' in child)) child.marks = [];
+        return child;
+      });
+    }
+
+    // ✅ Обработка списков (оставляем совместимость)
     if (block._type === 'list' && Array.isArray(block.children)) {
       block.children = block.children.map((child: PTBlock) => {
         if (!child._key) child._key = nanoid();
@@ -180,6 +186,8 @@ export default async function generateImagesForArticle(
         return child;
       });
     }
+
+    // ✅ Обработка изображений
     if (block._type === 'image' && block.dataImageDescription) {
       const match = String(block.dataImageDescription).match(/\[IMAGE:\s*(.*?)\]/i);
       if (!match) {

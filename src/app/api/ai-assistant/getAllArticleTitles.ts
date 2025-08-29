@@ -8,7 +8,6 @@ export async function getAllArticleTitles(): Promise<string[]> {
     const titles = articles.map(a => a.title).filter(Boolean);
     const uniqueTitles = Array.from(new Set(titles));
 
-    console.log("functional getAllArticleTitles(): ", uniqueTitles);
     return uniqueTitles;
   } catch (error) {
     console.error("❌ Ошибка при получении заголовков статей:", error);
