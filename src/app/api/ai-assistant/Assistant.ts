@@ -18,7 +18,6 @@ export default async function createAssistant(): Promise<string | null> {
             - Interactive examples (videos, gifs, demos)
             - Quotes from team members/clients/colleagues
             - Constructive comparisons of solutions (e.g. Tarot cards with other fortune-telling practices, etc.)
-        
         `,
             model: "gpt-4o",
             tools: [{ type: 'code_interpreter' }],

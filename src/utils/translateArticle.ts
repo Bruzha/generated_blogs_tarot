@@ -36,16 +36,32 @@ export default async function translateArticle(
     translatedContentRaw = JSON.parse(translatedContentRawStr);
   } catch (error) {
     console.error('Failed to parse translated contentRaw:', error);
-    translatedContentRaw = baseArticle.contentRaw; // fallback
+    translatedContentRaw = baseArticle.contentRaw;
   }
+
+  // Перевод SEO
+  // const translatedSeo = {
+  //   ...baseArticle.seo,
+  //   seoTitle: baseArticle.seo.seoTitle ? await translateText(baseArticle.seo.seoTitle, lang) : '',
+  //   seoDescription: baseArticle.seo.seoDescription
+  //     ? await translateText(baseArticle.seo.seoDescription, lang)
+  //     : '',
+  // };
 
   // Перевод SEO
   const translatedSeo = {
     ...baseArticle.seo,
-    seoTitle: baseArticle.seo.seoTitle ? await translateText(baseArticle.seo.seoTitle, lang) : '',
-    seoDescription: baseArticle.seo.seoDescription
-      ? await translateText(baseArticle.seo.seoDescription, lang)
-      : '',
+    title: baseArticle.seo.title ? await translateText(baseArticle.seo.title, lang) : '',
+    description: baseArticle.seo.description ? await translateText(baseArticle.seo.description, lang) : '',
+    keywords: baseArticle.seo.keywords ? await translateText(baseArticle.seo.keywords, lang) : '',
+    image: baseArticle.seo.image
+      ? {
+          ...baseArticle.seo.image,
+          altText: baseArticle.seo.image.altText
+            ? await translateText(baseArticle.seo.image.altText, lang)
+            : '',
+        }
+      : undefined,
   };
 
   // Перевод altText для coverImage

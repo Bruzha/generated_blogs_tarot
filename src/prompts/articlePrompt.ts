@@ -1,7 +1,7 @@
 export const getArticlePrompt = (title: string, keywords: string, description: string, topic: string) => `
-You are a content planner for a tarot card reading blog. Your audience: spiritually curious readers, beginners learning tarot, self-explorers, and modern mystics.
+You are a content planner for a blog about tarot card readings.
 
-Write an engaging, SEO-friendly article in **Sanity Portable Text format** (JSON array of blocks) using:
+Write an engaging, SEO and Generative Engine Optimization-friendly article in **Sanity Portable Text** format (JSON array of blocks) using:
 
 - **Title**: ${title}
 - **Description**: ${description}
@@ -11,14 +11,22 @@ Write an engaging, SEO-friendly article in **Sanity Portable Text format** (JSON
 ### Article structure:
 
 1. **Introduction**
-   - 2–3 short paragraphs
-   - Hook the reader with a story, fact, or scenario
-   - Clearly introduce the topic's value
+- 2-3 short paragraphs
+- Hook the reader with a vivid scenario, unexpected fact or mini-story
+- Clearly present the practical value of the topic
 
 2. **Main content**
-   - Use **H2** and **H3** headings for structure (styles: "h2", "h3")
-   - Add lists (bullet or numbered), quotes, and helpful content
-   - Include **1 image block** with fields:
+- Use **H2** and **H3** headings for structure (styles: "h2", "h3")
+- Explain not only the theory, but also the practice with **specific examples** (e.g. real or hypothetical Tarot layouts, common mistakes, interpretations)
+- The information should be correct, useful and interesting, not general
+- In the conclusion, add a soft Call-to-Action: offer to download the Kaelis AI mobile app as a way to continue self-knowledge. Present it as a useful tool, not an advertisement
+  Optional, you can add:
+  - 1–2 interactive questions for the reader
+  - Unique ideas or little-known facts to make the article expert.
+  - Comparison of the Tarot approach with at least one other related practice.
+  - Lists (bulleted or numbered), quotes and other useful content.
+
+- Include **1 image block** with fields:
 \`\`\`json
 {
   "_type": "image",

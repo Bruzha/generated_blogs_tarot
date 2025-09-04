@@ -11,6 +11,7 @@ import { addPost } from "../../store/reducers/postsSlice";
 import { PostType } from "@/app/componets/ui/postTable/PostTable";
 import translateArticle from "./translateArticle";
 import { selectCategoriesForDates } from "./modalUtils";
+import { nanoid } from 'nanoid';
 
 export async function generateContentPlan(
   posts: PostType[],
@@ -87,40 +88,50 @@ export async function generateContentPlan(
           .toLowerCase()
           .replace(/[^a-z0-9]+/g, '-')
           .replace(/^-+|-+$/g, '');
-        const timestamp = new Date().toISOString().replace(/[^a-z0-9]+/gi, '-');
+        //const timestamp = new Date().toISOString().replace(/[^a-z0-9]+/gi, '-');
 
         const cover = images.length > 0 ? { image: images[0].image, altText: images[0].altText } : undefined;
 
         const dateKey = d.toISOString().split('T')[0];
         const categoriesForDate = selectedCategories[dateKey] || [];
 
-        // ✅ Функция сокращения заголовка для breadcrumbs
         const shortenTitle = (title: string) => (title.length > 60 ? title.substring(0, 57) + '...' : title);
 
-        // ✅ Breadcrumbs для EN
         const breadcrumbsEN = [
           { _key: 'home', _type: 'linkBreadcrumb', label: 'Home', url: '/' },
           { _key: 'articles', _type: 'linkBreadcrumb', label: 'Articles', url: '/articles' },
           { _key: 'article', _type: 'linkBreadcrumb', label: shortenTitle(contentPlan.title), url: `/${slugBase}` }
         ];
 
-        // Английская версия
+        const seoObj = {
+          _key: nanoid(),
+          _type: 'seo',
+          titleTemplate: false,
+          title: contentPlan.title,
+          description: contentPlan.description,
+          keywords: contentPlan.keywords,
+          ogType: 'article',
+          twitterCard: 'summary_large_image',
+          ...(cover ? { image: cover } : {}),
+        };
+
+
         const enArticle = {
           _type: 'articlesItem',
-          _id: timestamp,
+          _id: nanoid(),
           title: contentPlan.title,
           desc: contentPlan.description,
           slug: { _type: 'slug', current: `/${slugBase}` },
           date,
           ...(cover ? { coverImage: cover } : {}),
-          seo: {},
           i18n_lang: 'en',
           content: modifiedBodyContent,
           category: categoriesForDate.map((catId: string) => ({
-            _key: timestamp,
+            _key: nanoid(),
             _type: 'reference',
             _ref: catId,
           })),
+          seo: seoObj,
           breadcrumbs: breadcrumbsEN
         };
 
@@ -143,20 +154,18 @@ export async function generateContentPlan(
         const getLocalizedCategories = (lang: 'ru' | 'uk') => {
           return categoriesWithRefs.map(cat => {
             if (cat.i18n_lang === lang) {
-              return { _key: timestamp, _type: 'reference', _ref: cat._id };
+              return { _key: nanoid(), _type: 'reference', _ref: cat._id };
             }
             const match = cat.refs?.find(r => r.i18n_lang === lang);
-            return { _key: timestamp, _type: 'reference', _ref: match ? match._id : cat._id };
+            return { _key: nanoid(), _type: 'reference', _ref: match ? match._id : cat._id };
           });
         };
 
-        // ✅ Локализация breadcrumbs
         const breadcrumbsLabels = {
           ru: { home: 'Главная', articles: 'Статьи' },
           uk: { home: 'Головна', articles: 'Статті' }
         };
 
-        // Переводы
         setLoadingStage('create-other-version');
         const languages: ('ru' | 'uk')[] = ['ru', 'uk'];
         const translatedDocs = [];
@@ -182,7 +191,7 @@ export async function generateContentPlan(
           ];
 
           const doc = {
-            _id: `${timestamp}__i18n_${lang}`,
+            _id: `${createdEn._id}__i18n_${lang}`,
             _type: 'articlesItem',
             title: translatedData.title,
             desc: translatedData.desc,
@@ -201,7 +210,6 @@ export async function generateContentPlan(
           translatedDocs.push(createdDoc);
         }
 
-        // Обновление i18n_refs
         const allRefs = [createdEn, ...translatedDocs].map(d => ({ _type: 'reference', _ref: d._id }));
 
         await client.patch(createdEn._id).set({ i18n_refs: allRefs }).commit();
