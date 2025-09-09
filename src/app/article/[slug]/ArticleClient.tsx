@@ -64,17 +64,21 @@ export default function ArticleClient({ slug }: Props) {
         <PortableText
           value={post.content || []}
           components={{
-            types: {
-              image: ({ value }) => (
-                <div className="article__image">
-                  <Image
-                    src={urlFor(value).width(1024).height(1024).url()}
-                    alt={value.alt || ''}
-                    width={1024}
-                    height={1024}
-                  />
-                </div>
-              ),
+             types: {
+              image: ({ value }) => {
+                if (!value?.asset?._ref) return null;
+
+                return (
+                  <div className="article__image">
+                    <Image
+                      src={urlFor(value.asset).width(1024).height(1024).url()}
+                      alt={value.alt || 'Article image'}
+                      width={1024}
+                      height={1024}
+                    />
+                  </div>
+                );
+              },
             },
             block: {
               h1: ({ children }) => <h1>{children}</h1>,

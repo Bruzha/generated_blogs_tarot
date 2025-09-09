@@ -27,9 +27,8 @@ export default function IndexPage() {
     const fetchAllPostsFromSanity = async () => {
       setLoading(true);
       try {
-        const allPosts = await client.fetch(`*[_type == "articlesItem" && i18n_lang == "en"] | order(date desc)`);
+        const allPosts = await client.fetch(`*[_type == "articlesItem" && i18n_lang == "en" && !(_id in path("drafts.**"))] | order(date desc)`);
         console.log("allPosts: ", allPosts)
-        //const allPosts = await client.fetch(`*[_type == "articlesItem"] | order(date desc)`);
         dispatch(setPosts(allPosts));
         if (!allPosts || allPosts.length === 0) {
           await generateContentPlan(allPosts, dispatch, setLoading, setLoadingStage);
@@ -102,8 +101,6 @@ export default function IndexPage() {
       setLoading(false);
     }
   };
-
-// const handleDeletePosts = async (postIds: string[]) => {
 //   if (postIds.length === 0) return;
 
 //   setLoadingStage('deleting');

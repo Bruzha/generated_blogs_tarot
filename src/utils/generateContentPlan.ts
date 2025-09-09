@@ -88,7 +88,6 @@ export async function generateContentPlan(
           .toLowerCase()
           .replace(/[^a-z0-9]+/g, '-')
           .replace(/^-+|-+$/g, '');
-        //const timestamp = new Date().toISOString().replace(/[^a-z0-9]+/gi, '-');
 
         const cover = images.length > 0 ? { image: images[0].image, altText: images[0].altText } : undefined;
 
@@ -118,7 +117,7 @@ export async function generateContentPlan(
 
         const enArticle = {
           _type: 'articlesItem',
-          _id: nanoid(),
+          _id: `article-${nanoid()}`,
           title: contentPlan.title,
           desc: contentPlan.description,
           slug: { _type: 'slug', current: `/${slugBase}` },

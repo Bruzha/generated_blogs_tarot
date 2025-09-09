@@ -22,6 +22,8 @@ export default async function fetchArticleContent(promptArticle: string) {
     const noteIndex = bodyContent.indexOf('Note:');
     if (noteIndex !== -1) bodyContent = bodyContent.substring(0, noteIndex);
 
+    bodyContent = bodyContent.replace(/\*\*/g, '');
+
     let parsedBody = null;
     try {
       parsedBody = JSON.parse(bodyContent);

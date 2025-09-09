@@ -3,7 +3,7 @@ import { client } from '@/sanity/client';
 export async function getAllArticleTitles(): Promise<string[]> {
   try {
     const articles: { title: string }[] = await client.fetch(
-      `*[_type == "articlesItem" && i18n_lang == "en"]{ title }`
+      `*[_type == "articlesItem" && i18n_lang == "en" && !(_id in path("drafts.**"))]{ title }`
     );
     const titles = articles.map(a => a.title).filter(Boolean);
     const uniqueTitles = Array.from(new Set(titles));
