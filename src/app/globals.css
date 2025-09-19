@@ -39,4 +39,10 @@ button {
 .blueButton:hover {
   background-color: #1d4ed8;     
 }
+.redButton{
+  background-color: #f63b3b;
+}
+.redButton:hover {
+  background-color: #d81d1d;     
+}
 

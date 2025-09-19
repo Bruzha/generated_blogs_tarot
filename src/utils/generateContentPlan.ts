@@ -62,7 +62,7 @@ export async function generateContentPlan(
   setLoadingStage('article-generation');
   const articlePromises = [];
 
-  for (let i = 0; i < 1; i++) {
+  for (let i = 0; i < combinedContentPlan.length; i++) {
     const contentPlan = combinedContentPlan[i];
     const d = articleDates[i];
     const date = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;

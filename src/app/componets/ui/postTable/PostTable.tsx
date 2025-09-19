@@ -71,7 +71,7 @@ export default function PostTable({ posts, onPostUpdate, onDeletePosts }: PostTa
         {/* <button className="blueButton" onClick={handleSelectAll}>
           Select all
         </button> */}
-        <button className="blueButton" onClick={handleDeleteSelected}>
+        <button className="redButton" onClick={handleDeleteSelected}>
           Delete selected
         </button>
       </div>
