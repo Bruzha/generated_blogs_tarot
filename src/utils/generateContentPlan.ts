@@ -1,3 +1,4 @@
+// src/utils/generateContentPlan.ts
 import { getTuesdaysAndFridaysForNextMonth } from "./dateUtils";
 import { getContentPlanPrompt } from "@/prompts/contentPlanPrompt";
 import fetchContentPlan from "../../store/thunks/fetchContentPlan";
@@ -12,6 +13,21 @@ import { PostType } from "@/app/componets/ui/postTable/PostTable";
 import translateArticle from "./translateArticle";
 import { selectCategoriesForDates } from "./modalUtils";
 import { nanoid } from 'nanoid';
+
+export type Keyword = {
+  word: string;
+  weight: number;
+};
+
+export default async function fetchKeywordsFromAPI(query: string | string[]) {
+  const res = await fetch('/api/keywords/fetch', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query }),
+  });
+  const data = await res.json();
+  return data.keywords || [];
+}
 
 export async function generateContentPlan(
   posts: PostType[],
@@ -48,7 +64,31 @@ export async function generateContentPlan(
   });
 
   console.log("categoriesForPrompt: ", categoriesForPrompt);
-  const combinedPromptContentPlan = getContentPlanPrompt(categoriesForPrompt, articleDates);
+  const baseTarotKeywords = await fetchKeywordsFromAPI("tarot");
+
+  console.log("baseTarotKeywords: ", baseTarotKeywords)
+
+  const categoryQueries = {
+    Spreads: ["tarot spreads", "tarot reading", "fortune telling"],
+    Practices: ["tarot", "tarot practice", "tarot reading"],
+    Training: ["learn tarot", "tarot course", "tarot training"],
+    Numerology: ["numerology", "tarot numerology"],
+    Astrology: ["astrology", "zodiac signs", "tarot astrology"],
+  };
+
+  const allKeywords: { word: string; weight: number }[] = [...baseTarotKeywords];
+
+  for (const query of Object.values(categoryQueries)) {
+    const categoryKeywords = await fetchKeywordsFromAPI(query);
+    allKeywords.push(...categoryKeywords);
+  }
+
+  console.log("allKeywords: ", allKeywords)
+  const combinedPromptContentPlan = getContentPlanPrompt(
+    categoriesForPrompt,
+    articleDates,
+    allKeywords
+  );
 
   const combinedContentPlan = await fetchContentPlan(combinedPromptContentPlan);
 
@@ -62,7 +102,7 @@ export async function generateContentPlan(
   setLoadingStage('article-generation');
   const articlePromises = [];
 
-  for (let i = 0; i < combinedContentPlan.length; i++) {
+  for (let i = 0; i < 1; i++) {
     const contentPlan = combinedContentPlan[i];
     const d = articleDates[i];
     const date = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;

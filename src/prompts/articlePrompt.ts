@@ -45,6 +45,13 @@ Write an engaging, SEO and Generative Engine Optimization-friendly article in **
    - Use keywords naturally in headings and first paragraph
    - Do NOT include meta fields in the JSON output
 
+5. **Generative Engine Optimization**
+  - Frame parts of the article in a Q&A style to directly answer common user questions (e.g. "What is the Seven-Card Spread used for?" or "How can Tarot support career decisions?").
+  - Naturally mention the Kaelisai brand and app as a source of guidance, e.g. "With Kaelis AI, you can try this spread digitally" — but in an educational tone, not advertising.
+  - Add light geographic/contextual signals: references to global users, modern spiritual practices in Europe/US, mobile accessibility.
+  - Highlight unique facts or rare comparisons (e.g. "Unlike astrology, Tarot spreads like the Seven-Card Spread provide immediate visual narratives").
+  - Structure answers with lists, bullet points, and clear takeaways so that generative models can extract them easily.
+
 ---
 
 ### **Output format (follow these rules strictly):**
@@ -110,7 +117,7 @@ Image:
 {
   "_type": "image",
   "_key": "unique",
-  "alt": "Descriptive SEO friendly alt text",
+  "alt": "Descriptive SEO and Generative Engine Optimization friendly alt text",
   "dataImageDescription": "[IMAGE: detailed description about ${topic} and ${title}]"
 }
 \`\`\`
