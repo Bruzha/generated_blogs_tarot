@@ -21,7 +21,7 @@ Your task is to generate unique titles and descriptions for each article dependi
 - Include the main keyword (most important) in the title.
 - Include the main and additional keywords (not necessarily all) in a natural way in the description.
 - Create unique, engaging titles.
-- Where possible, phrase titles or/and descriptions as answers to common AI user queries (e.g. "What does The Fool card mean in career? [Answer]").
+- Use keywords to find common, relevant AI user questions and answers, and use them in the title and description. Where possible, phrase titles or/and descriptions as answers to common AI user queries (e.g. "What does The Fool card mean in career? [Answer]").
 - Use questions/answers that match typical user intent for AI tools (how, why, best practices, comparisons).
 - Avoid duplicate patterns: vary between case studies, trend reports, practical guides, and FAQ-style posts.
 - Generate exactly ${articleDates.length} articles in this order: ${topics.join(', ')}.

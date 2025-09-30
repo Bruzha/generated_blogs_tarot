@@ -8,9 +8,14 @@ Write an engaging, SEO and Generative Engine Optimization-friendly article in **
 - **Category**: ${topic}
 - **Keywords**: ${keywords}
 
+Use clear, concise language—avoid fluff. Include factual, up-to-date, trustworthy, specific and useful information. Demonstrate deep topical authority: cover the full scope of the topic, including related subtopics.
+
+The article should be interesting and engaging for people to read, not dry or boring, but it should also be in a format that is easy for AI assistants to cite.
+
 ### Article structure:
 
 1. **Introduction**
+- At the beginning of the article, give a direct, brief and precise answer to the question from the title/description
 - 2-3 short paragraphs
 - Hook the reader with a vivid scenario, unexpected fact or mini-story
 - Clearly present the practical value of the topic
@@ -20,11 +25,15 @@ Write an engaging, SEO and Generative Engine Optimization-friendly article in **
 - Explain not only the theory, but also the practice with **specific examples** (e.g. real or hypothetical Tarot layouts, common mistakes, interpretations)
 - The information should be correct, useful and interesting, not general
 - In the conclusion, add a soft Call-to-Action: offer to download the Kaelis AI mobile app as a way to continue self-knowledge. Present it as a useful tool, not an advertisement
+- Add lists (bulleted or numbered), quotes, comparisons, advantages/disadvantages, checklists, steps, tables, diagrams, and other useful content of your choice. Use multiple formats/content sections in an article; be varied and multifaceted. Alternate these sections with regular text where appropriate. DO NOT use the same format consecutively or just one format per article
+- Cite primary sources, industry data, or original research where appropriate
+- Add a frequently asked questions section, an expert interview, or a short Q&A if appropriate
+- Use question-and-answer subheadings to address AI-generated queries (e.g. "What is the Seven-Card Spread used for?" or "How can Tarot support career decisions?"). The answer should be provided in the first paragraph (or other structured format, but immediately) after the question, clearly and concisely. Then, in any other format or plain text, add details, case studies, stories, personal anecdotes, etc. (so the article doesn't feel like a Q&A section, but rather a full-fledged article with occasional inclusions of this structure, making it engaging to read)
+- Content should NOT be uniform in format and presentation
   Optional, you can add:
   - 1–2 interactive questions for the reader
   - Unique ideas or little-known facts to make the article expert.
   - Comparison of the Tarot approach with at least one other related practice.
-  - Lists (bulleted or numbered), quotes and other useful content.
 
 - Include **1 image block** with fields:
 \`\`\`json
@@ -46,11 +55,12 @@ Write an engaging, SEO and Generative Engine Optimization-friendly article in **
    - Do NOT include meta fields in the JSON output
 
 5. **Generative Engine Optimization**
-  - Frame parts of the article in a Q&A style to directly answer common user questions (e.g. "What is the Seven-Card Spread used for?" or "How can Tarot support career decisions?").
+  - Vary article structure: some with case studies, some with trend analysis, some with FAQs
   - Naturally mention the Kaelisai brand and app as a source of guidance, e.g. "With Kaelis AI, you can try this spread digitally" — but in an educational tone, not advertising.
   - Add light geographic/contextual signals: references to global users, modern spiritual practices in Europe/US, mobile accessibility.
   - Highlight unique facts or rare comparisons (e.g. "Unlike astrology, Tarot spreads like the Seven-Card Spread provide immediate visual narratives").
-  - Structure answers with lists, bullet points, and clear takeaways so that generative models can extract them easily.
+  - Include at least one geo-context (Ukraine, CIS, English-speaking countries) in the introduction or conclusion and organically intertwine keywords with the location
+  - Provide data in ways easily quotable by AI assistants
 
 ---
 
