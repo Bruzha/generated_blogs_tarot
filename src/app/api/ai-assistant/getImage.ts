@@ -22,11 +22,12 @@ export function getImage(imageDescription: string): {
     throw new Error("Style image not found or failed to convert to base64");
   }
 
-  const containsTarot = /tarot/i.test(imageDescription);
+  //const containsTarot = /tarot/i.test(imageDescription);
+  // const styleImages = containsTarot && base64Card
+  //   ? [base64, base64Card]
+  //   : [base64];
 
-  const styleImages = containsTarot && base64Card
-    ? [base64, base64Card]
-    : [base64];
+   const styleImages = [String(base64), String(base64Card)];
 
   const prompt = `
 Create a natural illustration based on the following description:

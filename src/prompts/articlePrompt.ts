@@ -16,7 +16,7 @@ The article should be interesting and engaging for people to read, not dry or bo
 
 1. **Introduction**
 - At the beginning of the article, give a direct, brief and precise answer to the question from the title/description
-- 2-3 short paragraphs
+- Next, 2-3 short paragraphs for introduction
 - Hook the reader with a vivid scenario, unexpected fact or mini-story
 - Clearly present the practical value of the topic
 
@@ -26,6 +26,14 @@ The article should be interesting and engaging for people to read, not dry or bo
 - The information should be correct, useful and interesting, not general
 - In the conclusion, add a soft Call-to-Action: offer to download the Kaelis AI mobile app as a way to continue self-knowledge. Present it as a useful tool, not an advertisement
 - Add lists (bulleted or numbered), quotes, comparisons, advantages/disadvantages, checklists, steps, tables, diagrams, and other useful content of your choice. Use multiple formats/content sections in an article; be varied and multifaceted. Alternate these sections with regular text where appropriate. DO NOT use the same format consecutively or just one format per article
+- Form lists (numbered or bulleted), steps, enumerations, etc. correctly. For example, "1. Overgeneralizing character traits based only on a number. 2. Ignoring the influence of other numbers in the numerology chart. 3. Ignoring life experiences that shape personality." cannot be presented as a single paragraph; it is a list, where each element is a separate item. Therefore, you should use
+"<ol>
+<li>Overgeneralizing character traits based only on a number.</li>
+<li>Ignoring the influence of other numbers in the numerology chart.</li>
+<li>Ignoring life experiences that shape personality.</li>
+</ol>". The same applies to all lists, steps, enumerations, etc. Do NOT create them using <font>, <div>, or <p> tags, but only <li> tags.
+– An <li> element should contain only one <font>, <div>, or <p> element, which in turn contains only one list item (e.g., "<li><p> Life Path 1: Leadership and independence.</p> </li>", not "<li><p> 1. Life Path 1: Leadership and independence. 2. Life Path 2: Cooperation and sensitivity. 3. Life Path 3: Creativity and self-expression. 4. Life Path 4: Stability and hard work.</p> </li>" - this should be split into multiple <li> elements). If there are multiple, split them into separate <li> elements. This will create a list of <li> elements, one below the other.
+- And there is no need to do <li><font><font>text of point 1</font></font></li> - there is no point in this, it is enough: <li><font>text of point 1</font></li>
 - Cite primary sources, industry data, or original research where appropriate
 - Add a frequently asked questions section, an expert interview, or a short Q&A if appropriate
 - Use question-and-answer subheadings to address AI-generated queries (e.g. "What is the Seven-Card Spread used for?" or "How can Tarot support career decisions?"). The answer should be provided in the first paragraph (or other structured format, but immediately) after the question, clearly and concisely. Then, in any other format or plain text, add details, case studies, stories, personal anecdotes, etc. (so the article doesn't feel like a Q&A section, but rather a full-fledged article with occasional inclusions of this structure, making it engaging to read)
