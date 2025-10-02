@@ -22,23 +22,20 @@ The article should be interesting and engaging for people to read, not dry or bo
 
 2. **Main content**
 - Use **H2** and **H3** headings for structure (styles: "h2", "h3")
+- Use question-and-answer subheadings similar to those used by AI users (e.g., "What is a seven-card spread used for?" or "How can Tarot help with career decisions?"). The answer should be provided in the first paragraph (or other structured format) following the question, clearly and concisely. Then, using any other format or plain text, add details, case studies, stories, personal anecdotes, etc.
 - Explain not only the theory, but also the practice with **specific examples** (e.g. real or hypothetical Tarot layouts, common mistakes, interpretations)
 - The information should be correct, useful and interesting, not general
 - In the conclusion, add a soft Call-to-Action: offer to download the Kaelis AI mobile app as a way to continue self-knowledge. Present it as a useful tool, not an advertisement
-- Add lists (bulleted or numbered), quotes, comparisons, advantages/disadvantages, checklists, steps, tables, diagrams, and other useful content of your choice. Use multiple formats/content sections in an article; be varied and multifaceted. Alternate these sections with regular text where appropriate. DO NOT use the same format consecutively or just one format per article
-- Form lists (numbered or bulleted), steps, enumerations, etc. correctly. For example, "1. Overgeneralizing character traits based only on a number. 2. Ignoring the influence of other numbers in the numerology chart. 3. Ignoring life experiences that shape personality." cannot be presented as a single paragraph; it is a list, where each element is a separate item. Therefore, you should use
-"<ol>
-<li>Overgeneralizing character traits based only on a number.</li>
-<li>Ignoring the influence of other numbers in the numerology chart.</li>
-<li>Ignoring life experiences that shape personality.</li>
-</ol>". The same applies to all lists, steps, enumerations, etc. Do NOT create them using <font>, <div>, or <p> tags, but only <li> tags.
-– An <li> element should contain only one <font>, <div>, or <p> element, which in turn contains only one list item (e.g., "<li><p> Life Path 1: Leadership and independence.</p> </li>", not "<li><p> 1. Life Path 1: Leadership and independence. 2. Life Path 2: Cooperation and sensitivity. 3. Life Path 3: Creativity and self-expression. 4. Life Path 4: Stability and hard work.</p> </li>" - this should be split into multiple <li> elements). If there are multiple, split them into separate <li> elements. This will create a list of <li> elements, one below the other.
-- And there is no need to do <li><font><font>text of point 1</font></font></li> - there is no point in this, it is enough: <li><font>text of point 1</font></li>
 - Cite primary sources, industry data, or original research where appropriate
-- Add a frequently asked questions section, an expert interview, or a short Q&A if appropriate
-- Use question-and-answer subheadings to address AI-generated queries (e.g. "What is the Seven-Card Spread used for?" or "How can Tarot support career decisions?"). The answer should be provided in the first paragraph (or other structured format, but immediately) after the question, clearly and concisely. Then, in any other format or plain text, add details, case studies, stories, personal anecdotes, etc. (so the article doesn't feel like a Q&A section, but rather a full-fledged article with occasional inclusions of this structure, making it engaging to read)
-- Content should NOT be uniform in format and presentation
-  Optional, you can add:
+- Add a frequently asked questions section, an expert interview, or a short Q&A if appropriate. Add lists (bulleted or numbered), quotes, comparisons, advantages/disadvantages, checklists, steps, tables, diagrams, and other useful content of your choice. Use multiple formats/content sections in an article; be varied and multifaceted. Alternate these sections with regular text where appropriate. DO NOT use the same format consecutively or just one format per article
+- - Properly construct lists, steps, enumerations, etc. For example, "Item 1. Item 2. Item 3" CANNOT be presented as a single paragraph, as it is a list, where each element is a separate item. Therefore, use multiple <li> tags, for example:
+"<ol>
+<li>Item 1.</li>
+<li>Item 2.</li>
+<li>Item 3.</li>
+</ol>". DO NOT create lists using <font>, <div>, or <p> tags within a single <li>, as each <font>, <div>, or <p> tag must be in a separate <li>. And don't use, for example, <li><font><font>Item 1</font></font></li>, as this doesn't make sense; <li><font>Item 1</font></li> is sufficient
+
+- Optional, you can add:
   - 1–2 interactive questions for the reader
   - Unique ideas or little-known facts to make the article expert.
   - Comparison of the Tarot approach with at least one other related practice.

@@ -1,6 +1,6 @@
 import { getBase64ImageFromPublic } from "@/utils/imageToBase64";
 
-const NEGATIVE_PROMPT = "deformed face, blurry face, extra limbs, distorted hands, missing fingers, incorrect anatomy, asymmetrical face, watermark, outline, poorly drawn face, distorted tarot card, illegible symbols, nightmare tarot, malformed text on card, fake cards, ugly symbols, incorrect tarot, outline, crooked faces on tarot";
+const NEGATIVE_PROMPT = "collage, fragmented picture,, unreadable text, deformed face, blurry face, extra limbs, distorted hands, missing fingers, incorrect anatomy, asymmetrical face, poorly drawn face, distorted tarot card, illegible symbols, nightmare tarot, malformed text on card, fake cards, ugly symbols, incorrect tarot, crooked faces on tarot";
 
 const STYLE_IMAGES = [
   "image-styles/image1.png",

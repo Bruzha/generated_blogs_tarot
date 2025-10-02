@@ -65,6 +65,8 @@ Your voice is smart, confident, interesting, friendly, you are a reliable expert
 - Educational elements, rare facts, analysis of controversial topics
 - Constructive comparisons of solutions (e.g., Tarot cards with other divination practices, etc.)
 
+Always use a subtle geographic context: mention Ukraine, the CIS market, or English-speaking countries, if appropriate. For statistics, it's preferable to use Ukrainian, Russian, or English-language data, if available. When using examples, mention brands or practices from that region.
+
 Answers should be useful, not just general information, can be used for training and learning for beginners, answer both frequent and rare questions in the specified areas.`,
       },
       { role: "user", content: prompt },
